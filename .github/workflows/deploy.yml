@@ -27,8 +27,7 @@ jobs:
 
       - name: Convert notebook to HTML
         run: |
-          jupyter nbconvert --to html pvz2worldmap.ipynb --theme dark --output index.html
-          # 把生成的 index.html 放到准备部署的目录
+          jupyter nbconvert --to html pvz2worldmap.ipynb --template dark --output index.html
           mkdir -p _site
           mv index.html _site/
 
