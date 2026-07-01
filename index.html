@@ -7517,7 +7517,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="worldmap-%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E7%9A%84%E9%83%A8%E5%88%86%E9%80%BB%E8%BE%91">worldmap 渲染引擎的部分逻辑<a class="anchor-link" href="#worldmap-%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E7%9A%84%E9%83%A8%E5%88%86%E9%80%BB%E8%BE%91">¶</a></h1><h1 id="%E5%AF%B9%E7%BC%96%E8%BE%91%E5%99%A8%E6%9D%A5%E8%AF%B4%EF%BC%8C%E7%AE%97%E6%B3%95%E5%8F%AA%E6%98%AF%E7%94%9F%E6%88%90%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%8C%E6%9C%AC%E6%96%87%E8%87%B4%E5%8A%9B%E4%BA%8E%E7%94%A8%E5%AE%98%E6%96%B9%E6%95%B0%E6%8D%AE%E8%BF%98%E5%8E%9F%E5%9C%B0%E5%9B%BE%E6%B8%B2%E6%9F%93">对编辑器来说，算法只是生成数据的一种方式，本文致力于用官方数据还原地图渲染<a class="anchor-link" href="#%E5%AF%B9%E7%BC%96%E8%BE%91%E5%99%A8%E6%9D%A5%E8%AF%B4%EF%BC%8C%E7%AE%97%E6%B3%95%E5%8F%AA%E6%98%AF%E7%94%9F%E6%88%90%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%8C%E6%9C%AC%E6%96%87%E8%87%B4%E5%8A%9B%E4%BA%8E%E7%94%A8%E5%AE%98%E6%96%B9%E6%95%B0%E6%8D%AE%E8%BF%98%E5%8E%9F%E5%9C%B0%E5%9B%BE%E6%B8%B2%E6%9F%93">¶</a></h1><h2 id="%E7%BB%9F%E4%B8%80%E5%9D%90%E6%A0%87%E7%BC%A9%E6%94%BE">统一坐标缩放<a class="anchor-link" href="#%E7%BB%9F%E4%B8%80%E5%9D%90%E6%A0%87%E7%BC%A9%E6%94%BE">¶</a></h2><p>$$X_{w}=\texttt{m\_position.x} \cdot \frac{\text{resolution}}{600}$$
+<h1 id="worldmap-%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E7%9A%84%E9%83%A8%E5%88%86%E9%80%BB%E8%BE%91">worldmap 渲染引擎的部分逻辑<a class="anchor-link" href="#worldmap-%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E7%9A%84%E9%83%A8%E5%88%86%E9%80%BB%E8%BE%91">¶</a></h1><h1 id="%E7%BC%96%E8%BE%91%E5%99%A8%E5%8F%AF%E4%BA%A4%E4%BA%92%E7%9A%84%E6%95%B0%E6%8D%AE%E5%8F%AA%E6%9C%89worldmap.json%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE">编辑器可交互的数据只有worldmap.json中的数据<a class="anchor-link" href="#%E7%BC%96%E8%BE%91%E5%99%A8%E5%8F%AF%E4%BA%A4%E4%BA%92%E7%9A%84%E6%95%B0%E6%8D%AE%E5%8F%AA%E6%9C%89worldmap.json%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE">¶</a></h1><h1 id="%E5%AF%B9%E7%BC%96%E8%BE%91%E5%99%A8%E6%9D%A5%E8%AF%B4%EF%BC%8C%E7%AE%97%E6%B3%95%E5%8F%AA%E6%98%AF%E7%94%9F%E6%88%90%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%8C%E6%9C%AC%E6%96%87%E8%87%B4%E5%8A%9B%E4%BA%8E%E7%94%A8%E5%AE%98%E6%96%B9%E6%95%B0%E6%8D%AE%E8%BF%98%E5%8E%9F%E5%9C%B0%E5%9B%BE%E6%B8%B2%E6%9F%93">对编辑器来说，算法只是生成数据的一种方式，本文致力于用官方数据还原地图渲染<a class="anchor-link" href="#%E5%AF%B9%E7%BC%96%E8%BE%91%E5%99%A8%E6%9D%A5%E8%AF%B4%EF%BC%8C%E7%AE%97%E6%B3%95%E5%8F%AA%E6%98%AF%E7%94%9F%E6%88%90%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%8C%E6%9C%AC%E6%96%87%E8%87%B4%E5%8A%9B%E4%BA%8E%E7%94%A8%E5%AE%98%E6%96%B9%E6%95%B0%E6%8D%AE%E8%BF%98%E5%8E%9F%E5%9C%B0%E5%9B%BE%E6%B8%B2%E6%9F%93">¶</a></h1><h2 id="%E7%BB%9F%E4%B8%80%E5%9D%90%E6%A0%87%E7%BC%A9%E6%94%BE">统一坐标缩放<a class="anchor-link" href="#%E7%BB%9F%E4%B8%80%E5%9D%90%E6%A0%87%E7%BC%A9%E6%94%BE">¶</a></h2><p>$$X_{w}=\texttt{m\_position.x} \cdot \frac{\text{resolution}}{600}$$
 $$Y_{w}=\texttt{m\_position.y} \cdot \frac{\text{resolution}}{600}$$
 $$\text{resolution} \in \{384,640,768,1536\}$$</p>
 <h2 id="mapPieces%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2">mapPieces仿射变换<a class="anchor-link" href="#mapPieces%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2">¶</a></h2><h3 id="%E5%9B%BE%E5%83%8F%EF%BC%9A">图像：<a class="anchor-link" href="#%E5%9B%BE%E5%83%8F%EF%BC%9A">¶</a></h3><p>$$ \theta=- \texttt{m\_rotationAngle} \times \frac{\pi}{180}$$</p>
@@ -7603,33 +7603,33 @@ $$\text{resolution} \in \{384,640,768,1536\}$$</p>
 <tbody>
 <tr>
 <td>level（含 minigame、miniboss、dangerroom 等）</td>
-<td>$\frac{1536}{1200}$</td>
-<td>$1$</td>
+<td>$$ \frac{1536}{1200} $$</td>
+<td>$$ 1 $$</td>
 </tr>
 <tr>
 <td>plantbox、plant</td>
-<td>$\frac{1536}{1200}$</td>
-<td>$1$</td>
+<td>$$ \frac{1536}{1200} $$</td>
+<td>$$ 1 $$</td>
 </tr>
 <tr>
 <td>star_gate</td>
-<td>$\frac{1536}{1200}$</td>
-<td>$1$</td>
+<td>$$ \frac{1536}{1200} $$</td>
+<td>$$ 1 $$</td>
 </tr>
 <tr>
 <td>key_gate</td>
-<td>$1$</td>
-<td>$\frac{1536}{1200}$</td>
+<td>$$ 1 $$</td>
+<td>$$ \frac{1536}{1200} $$</td>
 </tr>
 <tr>
 <td>giftbox</td>
-<td>$\frac{1536}{1200}$</td>
-<td>$1$</td>
+<td>$$ \frac{1536}{1200} $$</td>
+<td>$$ 1 $$</td>
 </tr>
 <tr>
 <td>doodad（动画）</td>
-<td>$\frac{1536}{1200}$</td>
-<td>$1$</td>
+<td>$$ \frac{1536}{1200} $$</td>
+<td>$$ 1 $$</td>
 </tr>
 </tbody>
 </table>
@@ -7815,15 +7815,15 @@ $$</p>
 <li>所有tile纹理均中心对齐坐标</li>
 <li>结点之间的路径必须以起点的浮点行列（每条路径都遵循对齐起点的斜轴网格而非基向量组成的标准斜轴网格）沿最接近连线的轴方向以1格为单位步进，不包含首位，在末端要有一个0.2~0.5的容错范围来避免瓦片覆盖子结点，结点本身生成的结点后续处理</li>
 <li>不用坐标或行列来判断邻接关系而是在每个tile(包括结点本身生成的tile)上记录UL、UR、DL、DR四个方向的in、out,邻接关系的具体映射见下表</li>
-<li>根据父子继承关系:<code>child.m_parentNode==parent.m_name</code>遍历所有结点，若找到key_gate,其所有子路径的所有结点要添加特殊标记以此来使用<code>lock</code>纹理</li>
+<li>根据父子继承关系:<code>child.m\_parentEvent==parent.m_name</code>遍历所有结点，若找到key_gate,其所有子路径的所有结点要添加特殊标记以此来使用<code>lock</code>纹理</li>
 </ul>
 <table>
 <thead>
 <tr>
 <th>掩码 (mask)</th>
 <th>连接方向 (ul, dl, ur, dr)</th>
-<th>纹理索引</th>
-<th>纹理文件名</th>
+<th>empty纹理索引</th>
+<th>empty纹理文件名</th>
 </tr>
 </thead>
 <tbody>
@@ -7925,6 +7925,59 @@ $$</p>
 </tr>
 </tbody>
 </table>
+<hr/>
+<h2 id="%E7%BA%BF%E6%80%A7%E5%9C%B0%E5%9B%BE%E5%9C%B0%E5%9B%BE%E7%8B%AC%E7%89%B9%E5%85%83%E7%B4%A0">线性地图地图独特元素<a class="anchor-link" href="#%E7%BA%BF%E6%80%A7%E5%9C%B0%E5%9B%BE%E5%9C%B0%E5%9B%BE%E7%8B%AC%E7%89%B9%E5%85%83%E7%B4%A0">¶</a></h2><h3 id="%E7%BA%BF%E6%80%A7%E5%9C%B0%E5%9B%BE%E8%B7%AF%E5%BE%84%E5%85%89%E6%9D%9F%E5%8A%A8%E7%94%BB%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2">线性地图路径光束动画仿射变换<a class="anchor-link" href="#%E7%BA%BF%E6%80%A7%E5%9C%B0%E5%9B%BE%E8%B7%AF%E5%BE%84%E5%85%89%E6%9D%9F%E5%8A%A8%E7%94%BB%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2">¶</a></h3><p>$$
+\text{MapEventItem } A, \text{MapEventItem } B
+$$</p>
+<p>$$
+B\texttt{.m\_parentEvent}==A\texttt{.m\_name}
+$$</p>
+<p>$$
+midX=\frac{X_{wA}+X_{wB}}{2}, 
+midY=\frac{Y_{wA}+Y_{wB}}{2}
+$$</p>
+<p>$$
+\Delta x = X_{wB}-X_{wA}, 
+\Delta y = Y_{wB}-Y_{wA}
+$$</p>
+<p>$$
+scaleX=\frac{\sqrt{\Delta x^2+\Delta y^2}}{130\cdot\frac{\text{resolution}}{1536}}
+$$</p>
+<p>$$
+\varphi=\arctan(\Delta y, \Delta x)
+$$</p>
+<p>$$
+\mathbf{P} =
+\begin{pmatrix}%
+1 &amp; 0 &amp; midX \\
+0 &amp; 1 &amp; midY \\
+0 &amp; 0 &amp; 1
+\end{pmatrix}
+\times
+\begin{pmatrix}
+\cos\varphi &amp; -\sin\varphi &amp; 0 \\
+\sin\varphi &amp; \cos\varphi &amp; 0 \\
+0 &amp; 0 &amp; 1
+\end{pmatrix}
+\times
+\begin{pmatrix}%
+scaleX &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 1
+\end{pmatrix}\\
+\times
+\begin{pmatrix}
+\frac{\text{resolution}}{1536} &amp; 0 &amp; 0 \\
+0 &amp; \frac{\text{resolution}}{1536} &amp; 0 \\
+0 &amp; 0 &amp; 1
+\end{pmatrix}
+\times
+\begin{pmatrix}
+1 &amp; 0 &amp; -97\times 2 \\
+0 &amp; 1 &amp; -97\times 2\\
+0 &amp; 0 &amp; 1
+\end{pmatrix}
+$$</p>
 </div>
 </div>
 </div>
