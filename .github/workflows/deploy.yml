@@ -31,13 +31,13 @@ jobs:
       - name: Convert notebook to HTML
         run: |
           jupyter nbconvert --to html pvz2worldmap.ipynb --output index.html
-          # mkdir -p _site
-          # mv index.html _site/
+          mkdir -p _site
+          mv index.html _site/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: '_site'
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
